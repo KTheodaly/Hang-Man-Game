@@ -1,99 +1,103 @@
 
+var options = ["sandals", "margharita", "ocean", "boardwalk", "coastal", "sandbar", "barnacle", "beachball", "bikini", "catamaran", "lagoon", "lifeguard", "frisbee", "underwater", "paddleboat", "pelican", "umbrella", "popsicle", "sunscreen", "swimming", "sailboat", "sandcastle", "seashell", "seashore", "snorkel", "starfish", "sunbathe", "sunburn", "sunglasses"];
 
-var alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
-var options = ["sandals", "margharita", "ocean", "boardwalk", "coastal","sandbar", "barnacle","beachball","bikini","catamaran", "lagoon", "lifeguard", "frisbee","underwater", "paddleboat", "pelican", "umbrella", "popsicle", "sunscreen", "swimming", "sailboat", "sandcastle", "seashell", "seashore", "snorkel", "starfish", "sunbathe", "sunburn", "sunglasses"];
+var yourWord = "";
+var wordLength = [];
+var blankCount = 0;
+var allSpaces = [];
+var wrongTries = [];
+var winTally = 0;
+var lossTally = 0;
+var maxGuess = 9;
 
-function getRandomIndex(min, max) {
-    return Math.floor(Math.random() * (max - min) + min);
+
+function startGame() {
+    maxGuess = 9;
+    yourWord = options[Math.floor(Math.random() * options.length)];
+    wordLength = yourWord.split("");
+    blankCount = wordLength.length;
+
+    console.log(yourWord);
+    allSpaces = [];
+    wrongTries = [];
+
+    for (var i = 0; i < blankCount; i++) {
+        allSpaces.push("_");
+    }
+
+    console.log(allSpaces);
+    document.getElementById("guesses-left").innerHTML = maxGuess;
+    document.getElementById("word-blanks").innerHTML = allSpaces.join(" ");
+    document.getElementById("wrong-guesses").innerHTML = wrongTries.join(" ");
 }
 
-function getRandomWord() {
-    var index = getRandomIndex(0, options.length);
-    return options[index];
-}
 
-function asteriskWord(randomWord, correct) {
-    var newString = "";
-    for (let i = 0; i < randomWord.length; i++) {
-        if (correct.includes(randomWord[i])) {
-            newString += randomWord[i];
-        } else {
-            newString += "*";
+function checkLetters(letter) {
+
+    var letterInWord = false;
+
+    for (var i = 0; i < blankCount; i++) {
+        if (yourWord[i] === letter) {
+
+            letterInWord = true;
         }
     }
-    return newString;
-}
 
-function reset() {
-    var word = getRandomWord()
-    return {
-        guesses: 0,
-        currentWord: word,
-        hiddenWord: asteriskWord(word, []),
-        correctLetters: [],
-        incorrectLetters: []
-    };
-}
+    if (letterInWord) {
 
-function displayStats(gameState, wins, losses) {
-    document.getElementById("wins").innerText = wins;
-    document.getElementById("losses").innerText = losses;
-    document.getElementById("guessesLeft").innerText = guessLimit - gameState.guesses;
-    document.getElementById("incorrect").innerText = gameState.incorrectLetters;
-    document.getElementById("hidden").innerText = gameState.hiddenWord;
-    var url = "https://www.ego4u.com/images/games/hangman0" + (gameState.guesses + 1);
-    if (gameState.guesses === guessLimit)
-        url += ".gif";
-        else
-        url += ".png"
-    document.getElementById("pic").setAttribute("src" , url);
-}
+        // Loop through word
+        for (var j = 0; j < blankCount; j++) {
 
-function hasWon(gameState) {
-    return !gameState.hiddenWord.includes("*");
-}
+            if (yourWord[j] === letter) {
 
-function hasLost(gameState) {
-    return gameState.guesses === guessLimit;
-}
-
-window.onload = function () {
-    var wins = 0;
-    var losses = 0;
-
-    var gameState = reset();
-
-    displayStats(gameState, wins, losses);
-
-    document.onkeyup = function (event) {
-        var key = event.key.toUpperCase();
-        var isInWord = gameState.currentWord.includes(key);
-        if (!alphabet.includes(key))
-            return;
-        if (isInWord) {
-            if (!gameState.correctLetters.includes(key)) {
-
-                gameState.correctLetters.push(key);
-                var newHidden = asteriskWord(gameState.currentWord, gameState.correctLetters);
-                gameState.hiddenWord = newHidden;
-            }
-        } else {
-            if (!gameState.incorrectLetters.includes(key)) {
-                gameState.incorrectLetters.push(key);
-                gameState.guesses += 1;
+                allSpaces[j] = letter;
             }
         }
-        if (hasWon(gameState)) {
-            wins++;
-            alert("YOU WON!!");
-            gameState = reset();
-        } else if (hasLost(gameState)) {
-            losses++;
-            setTimeout(function() {
-                alert("You lost");
-                gameState = reset();
-            }, 3000);
-        }
-        displayStats(gameState, wins, losses);
+
+        console.log(allSpaces);
+    }
+
+    else {
+
+        wrongTries.push(letter);
+        maxGuess--;
     }
 }
+
+function roundComplete() {
+
+    console.log("WinCount: " + winTally + " | LossCount: " + lossTally + " | maxGuess: " + maxGuess);
+
+    document.getElementById("guesses-left").innerHTML = maxGuess;
+    document.getElementById("word-blanks").innerHTML = allSpaces.join(" ");
+    document.getElementById("wrong-guesses").innerHTML = wrongTries.join(" ");
+
+
+    if (wordLength.toString() === allSpaces.toString()) {
+
+        winTally++;
+        alert("You win!");
+
+        document.getElementById("win-counter").innerHTML = winTally;
+        startGame();
+    }
+
+
+    else if (maxGuess === 0) {
+
+        lossTally++;
+        alert("You lose");
+        document.getElementById("loss-counter").innerHTML = lossTally;
+        startGame();
+    }
+
+}
+
+startGame();
+
+document.onkeyup = function (event) {
+
+    var letterGuessed = String.fromCharCode(event.which).toLowerCase();
+    checkLetters(letterGuessed);
+    roundComplete();
+};

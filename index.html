@@ -1,36 +1,64 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-us">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Hangman</title>
-    <!-- <link rel="stylesheet" href="assets/css/reset.css"> -->
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link href="https://fonts.googleapis.com/css?family=Days+One" rel="stylesheet">
+    <title>Word Guess</title>
+    <link rel="stylesheet" type="text/css" href="./assets/css/style.css">
+
 </head>
 
 <body>
-    <h1 class="title"><b>Hangman Game</b></h1>
     <div class="container">
-        <div class="stats">
-            <h3>
-                <b>Stats</b>
-            </h3>
-            <p>wins: <span id="wins"></span></p>
-            <p>losses: <span id="losses"></span></p>
-            <p>guesses left: <span id="guessesLeft"></span></p>
-            <p>incorrect: <span id="incorrect"></span></p>
+        <div class="jumbotron">
+            <div class="container">
+                <h1>Word Guess on Vacation</h1>
+                <h2>Guess a word you would find at the beach!</h2>
+                <small>Click any letter to begin</small>
+            </div>
         </div>
-        <div class="display">
-            <img id="pic" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDMSUFHZnEZnYfyoiJjhG-1Atfbmu_P9-cMVG-UYj-S77L79tf" alt="">
-            <p class="display-item" id="hidden"></p>
-            <p class="display-item guesses"></p>
+
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title"><strong>Word to Guess</strong></h3>
+                    </div>
+                    <div class="card-body">
+                        <h3 id="word-blanks">_ _ _ _ _ _ _ _ _ </h3>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+
+                        <strong>Wrong Guesses: </strong> <span id="wrong-guesses"></span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+
+                        <strong>Guesses Left: </strong> <span id="guesses-left">9</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+
+                        <strong>Wins: </strong> <span id="win-counter">0</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <strong>Losses: </strong> <span id="loss-counter">0</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="assets/js/game.js"></script>
+
+    <!-- Link to JavaScript-->
+    <script type="text/javascript" src="./assets/javascript/game.js"></script>
 </body>
 
 </html>
