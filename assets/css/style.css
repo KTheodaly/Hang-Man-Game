@@ -29,12 +29,11 @@ body {
     1px 1px 0px #21507E,
     0px 2px 1px #5BC0EB;
   border-radius: 250px;
-  border-left: 60px solid #A63A50;
-  border-right: 60px solid #21507E;
+  border-left: 20px solid #A63A50;
+  border-right: 20px solid #21507E;
   border-top: 2px solid #FFD154;
   border-bottom: 2px solid #FFD154;
-  height: 270px;
-  padding-top: 7%;
+  padding: 3%;
   box-shadow: 1px 4px 8px #21507E;
 }
 #guesses {
