@@ -76,7 +76,7 @@ function roundComplete() {
     if (wordLength.toString() === allSpaces.toString()) {
 
         winTally++;
-        alert("You win! The winning word was"+ yourWord);
+        alert("You win! The winning word was "+ yourWord);
 
         document.getElementById("win-counter").innerHTML = winTally;
         startGame();
